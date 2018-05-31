@@ -1,4 +1,6 @@
-# PxevarsToLmod
+# IntelPsxevarsToLmod
+convert intel parallel studio psxevars.sh to lmod format.
+
 lmod is a lua based enviroment modules managemt system.
 lmod add and remove directories from paths such as PATH, LD_LIBRARY_PATH, etc.
 
@@ -26,4 +28,3 @@ and the following Intel Parallel Studio XE Editions:
 for example:
 
 ./PxevarsToLmod/run.py /software/x86_64/intel/parallel_studio_xe_2018_update3/
-
