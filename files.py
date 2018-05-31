@@ -10,6 +10,12 @@ class Files:
         for key, item in self.files.items():
             self.check(key)    
 
+    def find(self, name, path):
+        for root, dirs, files in os.walk(path):
+            if name in files:
+                return os.path.join(root, name)
+        return False
+   
     def check(self, file):
         self.files[file] = sp.getoutput(f'which {file}') 
         if not os.path.isfile(self.files[file]):

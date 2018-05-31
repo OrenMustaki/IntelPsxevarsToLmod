@@ -4,38 +4,34 @@ import os
 import sys
 import subprocess as sp
 from files import Files
+import argparse
 
-psxe_dir = sys.argv[1]
+parser = argparse.ArgumentParser(formatter_class=argparse.RawTextHelpFormatter, description=f"")
+parser.add_argument(dest='path', action='store', default=sys.argv[1], )
+a = parser.parse_args()
+
 arch = 'intel64'
 lua_module = ''
+intel_license_line = ''
 f = Files()
 
 gcc = f.files['gcc']
 env = f.files['env']
 
-if not os.path.isdir(psxe_dir):
-    print(f"""
-{psxe_dir} is not a valid directory
-""")
+if not os.path.isdir(a.path):
+    print(f"\n{a.path} is not a directory.\n")
     exit()
 
-dir = [ file for file in os.listdir(psxe_dir) if "parallel_studio_xe_" in file ]
-psxe_major_version = min(dir)
-psxe_minor_version = max(dir)
-modulespath = '/software/x86_64/modulefiles/intel_parallel_studio_xe/'
+vars_script = f.find("psxevars.sh", a.path)
 
-vars_script = f"{psxe_dir}/{psxe_minor_version}/psxevars.sh"
+if not vars_script:
+    print("Could not find psxevars.sh")
+    exit()
+
+psxe_version = os.path.basename(os.path.dirname(vars_script))
 
 if os.getenv('INTEL_LICENSE_FILE', False):
     intel_license_line = f"prepend_path(\"INTEL_LICENSE_FILE\",\"{os.getenv('INTEL_LICENSE_FILE')}\")"
-else:
-    intel_license_line = ""
-
-if not os.path.isfile(vars_script):
-    print(f"""
-could not find a valid psxevars.sh file in {psxe_dir}/{psxe_minor_version}
-""")
-    exit()
 
 env_cmd = f'{env} -i bash -f -c \'export PATH={os.path.dirname(gcc)}:$PATH;source {vars_script} {arch};{env}\''
 show_env = sp.getoutput(env_cmd)
@@ -58,13 +54,13 @@ for var, values in vars.items():
     for value in values:
         lua_module += f"prepend_path(\"{var}\",\"{value}\")\n"
 
-lua_module = f"""-- -*_ lua module file for {psxe_minor_version}
+lua_module = f"""-- -*- lua module file for {psxe_version} --
 
-help([[Ensures that you have the path to {psxe_minor_version} in your path]])
+help([[Ensures that you have the path to {psxe_version} in your path]])
 
 family("intel_compiler")
 
-whatis("{psxe_minor_version}")
+whatis("{psxe_version}")
 {lua_module}
 {intel_license_line}
 
