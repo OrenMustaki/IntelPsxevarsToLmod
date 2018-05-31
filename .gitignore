@@ -1,3 +1,2 @@
-!files.py
-!README.md
-!run.py
+*.swp
+__pycache__
