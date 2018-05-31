@@ -74,6 +74,5 @@ setenv("FC","ifort")
 setenv("F90","ifort")
 setenv("F77","ifort")
 
-
 load("gcc")"""
 print(lua_module)
