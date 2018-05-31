@@ -7,6 +7,7 @@ from files import Files
 
 psxe_dir = sys.argv[1]
 arch = 'intel64'
+lua_module = ''
 f = Files()
 
 gcc = f.files['gcc']
@@ -25,6 +26,11 @@ modulespath = '/software/x86_64/modulefiles/intel_parallel_studio_xe/'
 
 vars_script = f"{psxe_dir}/{psxe_minor_version}/psxevars.sh"
 
+if os.getenv('INTEL_LICENSE_FILE', False):
+    intel_license_line = f"prepend_path(\"INTEL_LICENSE_FILE\",\"{os.getenv('INTEL_LICENSE_FILE')}\")"
+else:
+    intel_license_line = ""
+
 if not os.path.isfile(vars_script):
     print(f"""
 could not find a valid psxevars.sh file in {psxe_dir}/{psxe_minor_version}
@@ -32,8 +38,8 @@ could not find a valid psxevars.sh file in {psxe_dir}/{psxe_minor_version}
     exit()
 
 env_cmd = f'{env} -i bash -f -c \'export PATH={os.path.dirname(gcc)}:$PATH;source {vars_script} {arch};{env}\''
-clean_env_cmd = f'env -i bash -f -c env'
 show_env = sp.getoutput(env_cmd)
+clean_env_cmd = f'env -i bash -f -c env'
 clean_env = sp.getoutput(clean_env_cmd).splitlines()
 
 vars = {}
@@ -48,7 +54,6 @@ for line in show_env.splitlines():
 
     vars[var] = [ v for v in values.split(":") ] 
 
-lua_module = ''
 for var, values in vars.items():
     for value in values:
         lua_module += f"prepend_path(\"{var}\",\"{value}\")\n"
@@ -61,6 +66,8 @@ family("intel_compiler")
 
 whatis("{psxe_minor_version}")
 {lua_module}
+{intel_license_line}
+
 setenv("CC","icc")
 setenv("CXX","icpc")
 setenv("FC","ifort")
