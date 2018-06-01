@@ -1,4 +1,4 @@
-# Intel Psxevars To Lmod Converter
+Intel Psxevars To Lmod Converter
 ==================================
 
 *Takes intel parallel studio psxevars.sh script and converts it into lmod lua module file.*
