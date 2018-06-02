@@ -7,7 +7,7 @@ from files import Files
 import argparse
 
 parser = argparse.ArgumentParser(formatter_class=argparse.RawTextHelpFormatter, description=f"")
-parser.add_argument(dest='path', action='store', default=sys.argv[1], )
+parser.add_argument(dest='path', action='store')
 a = parser.parse_args()
 
 arch = 'intel64'
@@ -46,7 +46,7 @@ for line in show_env.splitlines():
     if line in clean_env:
         continue
     var = line.split("=")[0]
-    values = line.split("=")[1]
+    values = "".join(line.split("=")[1:])
 
     vars[var] = [ v for v in values.split(":") ] 
 
