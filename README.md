@@ -27,5 +27,5 @@ Usage
 ./PxevarsToLmod/run.py <INTEL_PSXE_ROOT_DIR>
 ```
 ```
-./PxevarsToLmod/run.py /software/x86_64/intel/parallel_studio_xe_2018_update3/
+./PxevarsToLmod/run.py /software/x86_64/intel/parallel_studio_xe_2018_update3/ > $MODULEPATH/intel_parallel_studio_xe/2018u3.lua
 ```
