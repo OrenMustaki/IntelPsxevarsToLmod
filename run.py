@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
 #
+# Project : IntelPsxevarsToLmod
+#
 import os
 import sys
 import subprocess as sp
