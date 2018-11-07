@@ -33,7 +33,7 @@ if not vars_script:
 psxe_version = os.path.basename(os.path.dirname(vars_script))
 
 if os.getenv('INTEL_LICENSE_FILE', False):
-    intel_license_line = f"prepend_path(\"INTEL_LICENSE_FILE\",\"{os.getenv('INTEL_LICENSE_FILE')}\")"
+    intel_license_line = f"setenv(\"INTEL_LICENSE_FILE\",\"{os.getenv('INTEL_LICENSE_FILE')}\")"
 
 env_cmd = f'{env} -i bash -f -c \'export PATH={os.path.dirname(gcc)}:$PATH;source {vars_script} {arch};{env}\''
 show_env = sp.getoutput(env_cmd)
