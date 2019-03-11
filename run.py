@@ -8,6 +8,7 @@ import subprocess as sp
 from files import Files
 import argparse
 
+excludes = ["PS1", "/usr/local/bin", "/usr/bin", "/usr/local/man", "/usr/local/share/man", "/usr/share/man", ""]
 parser = argparse.ArgumentParser(formatter_class=argparse.RawTextHelpFormatter, description=f"")
 parser.add_argument(dest='path', action='store')
 a = parser.parse_args()
@@ -51,9 +52,10 @@ for line in show_env.splitlines():
     values = "".join(line.split("=")[1:])
 
     vars[var] = [ v for v in values.split(":") ] 
-
 for var, values in vars.items():
     for value in values:
+        if var in excludes or value in excludes:
+            continue
         lua_module += f"prepend_path(\"{var}\",\"{value}\")\n"
 
 lua_module = f"""-- -*- lua module file for {psxe_version} --
