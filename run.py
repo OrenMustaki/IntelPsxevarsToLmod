@@ -8,7 +8,9 @@ import subprocess as sp
 from files import Files
 import argparse
 
-excludes = ["PS1", "/usr/local/bin", "/usr/bin", "/usr/local/man", "/usr/local/share/man", "/usr/share/man", ""]
+# exclude the following from the created lua files
+exclude_names = ["PS1"]
+exclude_values = ["/usr/local/bin", "/usr/bin", "/usr/local/man", "/usr/local/share/man", "/usr/share/man", ""]
 parser = argparse.ArgumentParser(formatter_class=argparse.RawTextHelpFormatter, description=f"")
 parser.add_argument(dest='path', action='store')
 a = parser.parse_args()
@@ -54,7 +56,7 @@ for line in show_env.splitlines():
     vars[var] = [ v for v in values.split(":") ] 
 for var, values in vars.items():
     for value in values:
-        if var in excludes or value in excludes:
+        if var in exclude_names or value in exclude_values:
             continue
         lua_module += f"prepend_path(\"{var}\",\"{value}\")\n"
 
