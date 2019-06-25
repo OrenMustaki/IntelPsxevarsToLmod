@@ -75,6 +75,7 @@ setenv("CXX","icpc")
 setenv("FC","ifort")
 setenv("F90","ifort")
 setenv("F77","ifort")
+setenv("libs","/home/odd/lib/x86_64/ifort")
 
 load("gcc")"""
 print(lua_module)
