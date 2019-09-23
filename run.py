@@ -69,6 +69,7 @@ family("intel_compiler")
 whatis("{psxe_version}")
 {lua_module}
 {intel_license_line}
+load("gcc")
 
 setenv("CC","icc")
 setenv("CXX","icpc")
@@ -77,5 +78,5 @@ setenv("F90","ifort")
 setenv("F77","ifort")
 setenv("libs","/home/odd/lib/x86_64/ifort")
 
-load("gcc")"""
+"""
 print(lua_module)
