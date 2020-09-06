@@ -22,6 +22,8 @@ and the following Intel Parallel Studio XE Editions:
 * 2018_update3
 * 2019_update1
 * 2019_update3
+* 2019_update5
+* 2010_update1
 
 Usage
 -----
