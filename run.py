@@ -9,7 +9,7 @@ from files import Files
 import argparse
 
 # exclude the following from the created lua files
-exclude_names = ["PS1"]
+exclude_names = ["PS1", "INTEL_PYTHONHOME", "CONDA_PYTHON_EXE", "CONDA_SHLVL", "CONDA_PROMPT_MODIFIER", "CONDA_EXE", "CONDA_PREFIX", "CONDA_DEFAULT_ENV"]
 exclude_values = ["/usr/local/bin", "/usr/bin", "/usr/local/man", "/usr/local/share/man", "/usr/share/man", ""]
 parser = argparse.ArgumentParser(formatter_class=argparse.RawTextHelpFormatter, description=f"")
 parser.add_argument(dest='path', action='store')
@@ -58,6 +58,7 @@ for var, values in vars.items():
     for value in values:
         if var in exclude_names or value in exclude_values:
             continue
+        if 
         lua_module += f"prepend_path(\"{var}\",\"{value}\")\n"
 
 lua_module = f"""-- -*- lua module file for {psxe_version} --
